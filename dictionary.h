@@ -17,6 +17,7 @@ class Dictionary {
 private:
     Node* root;
 
+public:
     Dictionary() {
         root = new Node;
         root->children.clear();
@@ -39,7 +40,7 @@ private:
         delete node;
     }
 
-    bool insert(Node *root, char *text) {
+    bool insert(char *text) {
         if (root == nullptr) {
             root = new Node;
         }
@@ -53,7 +54,7 @@ private:
             ptr = ptr->children[text[i]];
         }
 
-        if (ptr->completeWord == false) {
+        if (ptr->completeWord) {
             return false;
         } else {
             ptr->completeWord = true;
@@ -63,11 +64,7 @@ private:
         return true;
     }
 
-    void search() {
-
-    }
-
-    bool remove(Node* root, char* text) {
+    bool search(char* text) {
         if (root == nullptr) {
             return false;
         }
@@ -75,14 +72,33 @@ private:
         Node* ptr = root;
 
         for (int i = 0; i < strlen(text); i++) {
-            if (ptr->children.find(text[i]) != ptr->children.end()) {
+            if (ptr->children.find(text[i]) == ptr->children.end()) {
+                cout << "Not Found\n";
+                return false;
+            } else {
+                ptr = ptr->children[text[i]];
+            }
+        }
+
+        return true;
+    }
+
+    bool remove(char* text) {
+        if (root == nullptr) {
+            return false;
+        }
+
+        Node* ptr = root;
+
+        for (int i = 0; i < strlen(text); i++) {
+            if (ptr->children.find(text[i]) == ptr->children.end()) {
                 return false;
             } 
             ptr = ptr->children[text[i]];
         }
 
         if (ptr->completeWord) {
-            remove_recurse(root, text, 0);
+            remove_recurse(ptr, text, 0);
             return true;
         }
 
@@ -118,30 +134,27 @@ private:
         }
     }
 
-    void print_recurs(Node* node, char *prefix, int length) {
-        char newpre[length+2];
-        memcpy(newpre, prefix, length); 
-        newpre[length+1] = 0;
+    void print_recurs(Node* node, char *prefix) {
+        if (!node) {
+            return;
+        }
 
-        if (node->completeWord == true) {
+        if (node->completeWord) {
             cout << "WORD: " << prefix << endl;
         }
 
-        for (int i = 0; i < NUM_CHARS; i++) {
-            if (node->children[i] != NULL) {
-                newpre[length] = i;
-                print_recurs(node->children[i], newpre, length+i);
-            }
+        for (auto& pair : node->children) {
+            print_recurs(pair.second, prefix + pair.first);
         }
     }
     
-    void print(Node* root) {
+    void print() {
         if (root == nullptr) {
             cout << "Trie is Empty.\n";
             return;
         }
 
-        print_recurs(root, NULL, 0);
+        print_recurs(root, "");
     }
 };
 
