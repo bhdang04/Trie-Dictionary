@@ -20,6 +20,7 @@ int main () {
         switch (choices) {
             case 1:
                 cout << "Enter a word into the Dictionary: ";
+                cin.ignore();
                 cin >> entry;
                 if (dict.insert(entry.c_str())) {
                     cout << "Added Successfully\n";
@@ -29,6 +30,7 @@ int main () {
                 break;
             case 2:
                 cout << "Enter a word to remove from Dictionary: ";
+                cin.ignore();
                 cin >> entry;
                 if (dict.remove(entry.c_str())) {
                     cout << "Removed Successfully\n";
@@ -38,6 +40,7 @@ int main () {
                 break;
             case 3:
                 cout << "Enter a word to search up from Dictionary: ";
+                cin.ignore();
                 cin >> entry;
                 if (dict.search(entry.c_str())) {
                     cout << "WORD: " << entry << endl 
@@ -47,7 +50,7 @@ int main () {
                 }
                 break;
             case 4:
-                
+                dict.print();
                 break;
             case 5:
                 cout << "Successfully Closed\n";
