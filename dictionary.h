@@ -40,7 +40,7 @@ public:
         delete node;
     }
 
-    bool insert(char *text) {
+    bool insert(const char *text) {
         if (root == nullptr) {
             root = new Node;
         }
@@ -64,7 +64,7 @@ public:
         return true;
     }
 
-    bool search(char* text) {
+    bool search(const char* text) {
         if (root == nullptr) {
             return false;
         }
@@ -83,7 +83,7 @@ public:
         return true;
     }
 
-    bool remove(char* text) {
+    bool remove(const char* text) {
         if (root == nullptr) {
             return false;
         }
@@ -105,7 +105,7 @@ public:
         return false;
     }
 
-    void remove_recurse(Node* node, char* text, int index) {
+    void remove_recurse(Node* node, const char* text, int index) {
         if (node == nullptr) {
             return;
         }
@@ -154,7 +154,7 @@ public:
             return;
         }
 
-        print_recurs(root, "");
+        print_recurs(root, nullptr);
     }
 };
 
